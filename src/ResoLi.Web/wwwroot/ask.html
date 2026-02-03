@@ -8,7 +8,7 @@
 </head>
 <body>
     <header class="header">
-        <a href="/" class="logo">reso<span>_</span>li</a>
+        <a href="/" class="logo">reso<span class="accent">_</span>l<span class="accent">i</span></a>
         <div class="header-actions">
             <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
                 <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -17,6 +17,7 @@
                 <svg class="moon-icon hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                 </svg>
+                <span class="theme-label" id="themeLabel">light</span>
             </button>
         </div>
     </header>
@@ -54,19 +55,27 @@
             <button id="createPollBtn" class="btn btn-primary w-full">Create poll</button>
         </div>
 
-        <!-- Step 2: Add questions -->
+        <!-- Step 2: Poll overview + Add questions (master/detail) -->
         <div id="questionsStep" class="hidden">
             <div class="card mb-3">
                 <div class="flex justify-between items-center mb-2">
                     <h2 class="card-title" style="margin-bottom: 0;">Your poll is ready!</h2>
                 </div>
-                <p class="text-muted mb-2">Share this link with your respondents:</p>
+                <p class="text-muted mb-2">Give respondents the access code, or share this link directly:</p>
                 <div class="flex gap-1">
                     <input type="text" id="pollUrl" class="form-input" readonly>
                     <button id="copyUrlBtn" class="btn btn-secondary">Copy</button>
                 </div>
             </div>
 
+            <!-- Questions list (poll overview) -->
+            <div id="questionsListContainer" class="card mb-3">
+                <h2 class="card-title">Questions</h2>
+                <div id="questionsList" class="question-list"></div>
+                <p id="noQuestionsMsg" class="text-muted">No questions added yet.</p>
+            </div>
+
+            <!-- Add question form -->
             <div class="card mb-3">
                 <h2 class="card-title">Add a question</h2>
 
@@ -127,12 +136,8 @@
                 <p id="questionError" class="form-error hidden mt-1"></p>
             </div>
 
-            <div id="questionsListContainer" class="card hidden">
-                <h2 class="card-title">Questions added</h2>
-                <div id="questionsList" class="question-list"></div>
-                <div class="mt-3">
-                    <a id="managePollLink" href="#" class="btn btn-primary w-full">Go to poll management</a>
-                </div>
+            <div class="card">
+                <a id="managePollLink" href="#" class="btn btn-primary w-full">Go to poll management</a>
             </div>
         </div>
     </main>

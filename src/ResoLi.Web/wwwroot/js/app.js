@@ -31,6 +31,8 @@ const ThemeManager = {
     updateToggleIcons(theme) {
         const sunIcon = document.querySelector('.sun-icon');
         const moonIcon = document.querySelector('.moon-icon');
+        const themeLabel = document.getElementById('themeLabel');
+
         if (sunIcon && moonIcon) {
             if (theme === 'dark') {
                 sunIcon.classList.add('hidden');
@@ -39,6 +41,10 @@ const ThemeManager = {
                 sunIcon.classList.remove('hidden');
                 moonIcon.classList.add('hidden');
             }
+        }
+
+        if (themeLabel) {
+            themeLabel.textContent = theme;
         }
     }
 };
@@ -49,16 +55,18 @@ const API = {
 
     async request(endpoint, options = {}) {
         const url = `${this.baseUrl}${endpoint}`;
+        const { headers: optHeaders, body, ...restOptions } = options;
+
         const config = {
+            ...restOptions,
             headers: {
                 'Content-Type': 'application/json',
-                ...options.headers
-            },
-            ...options
+                ...optHeaders
+            }
         };
 
-        if (options.body && typeof options.body === 'object') {
-            config.body = JSON.stringify(options.body);
+        if (body && typeof body === 'object') {
+            config.body = JSON.stringify(body);
         }
 
         const response = await fetch(url, config);

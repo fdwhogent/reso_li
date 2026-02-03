@@ -98,7 +98,10 @@ class CreatePollApp {
             document.getElementById('pollUrl').value = pollUrl;
 
             // Set manage link
-            document.getElementById('managePollLink').href = `/manage.html?poll=${this.poll.accessCode}`;
+            document.getElementById('managePollLink').href = `/manage?poll=${this.poll.accessCode}`;
+
+            // Show empty state
+            this.renderQuestionsList();
 
         } catch (error) {
             errorEl.textContent = error.message || 'Failed to create poll';
@@ -235,24 +238,29 @@ class CreatePollApp {
     }
 
     renderQuestionsList() {
-        const container = document.getElementById('questionsListContainer');
         const list = document.getElementById('questionsList');
+        const noQuestionsMsg = document.getElementById('noQuestionsMsg');
 
-        Utils.showElement(container);
         list.innerHTML = '';
 
-        this.questions.forEach((q, index) => {
-            const item = document.createElement('div');
-            item.className = 'question-list-item';
-            item.innerHTML = `
-                <span class="question-number">${index + 1}</span>
-                <div class="question-info">
-                    <div class="question-title">${Utils.escapeHtml(q.title || 'Untitled question')}</div>
-                    <div class="question-meta">${q.options.length} options - ${q.allowMultiple ? 'Multiple choice' : 'Single choice'}</div>
-                </div>
-            `;
-            list.appendChild(item);
-        });
+        if (this.questions.length === 0) {
+            Utils.showElement(noQuestionsMsg);
+        } else {
+            Utils.hideElement(noQuestionsMsg);
+
+            this.questions.forEach((q, index) => {
+                const item = document.createElement('div');
+                item.className = 'question-list-item';
+                item.innerHTML = `
+                    <span class="question-number">${index + 1}</span>
+                    <div class="question-info">
+                        <div class="question-title">${Utils.escapeHtml(q.title || 'Untitled question')}</div>
+                        <div class="question-meta">${q.options.length} options - ${q.allowMultiple ? 'Multiple choice' : 'Single choice'}</div>
+                    </div>
+                `;
+                list.appendChild(item);
+            });
+        }
     }
 }
 

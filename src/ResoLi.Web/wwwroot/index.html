@@ -8,9 +8,9 @@
 </head>
 <body>
     <header class="header">
-        <a href="/" class="logo">reso<span>_</span>li</a>
+        <a href="/" class="logo">reso<span class="accent">_</span>l<span class="accent">i</span></a>
         <div class="header-actions">
-            <a href="/ask.html" class="btn btn-secondary btn-sm">Create a poll</a>
+            <a href="/ask" class="btn btn-secondary btn-sm">Create a poll</a>
             <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
                 <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -18,6 +18,7 @@
                 <svg class="moon-icon hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                 </svg>
+                <span class="theme-label" id="themeLabel">light</span>
             </button>
         </div>
     </header>
@@ -33,7 +34,7 @@
         <div id="codeEntry" class="hidden">
             <div class="text-center mt-4">
                 <h1 class="mb-2">Join a poll</h1>
-                <p class="text-muted mb-4">Enter the access code provided by your instructor</p>
+                <p class="text-muted mb-4">Enter the access code provided to you</p>
             </div>
             <div class="code-input-container">
                 <input type="text" id="accessCodeInput" class="code-input" placeholder="ACCESS CODE" maxlength="50" autocomplete="off">
@@ -74,10 +75,6 @@
             <p id="voteMessage" class="message message-success mt-2 hidden">Your response has been recorded!</p>
         </div>
     </main>
-
-    <div class="footer-link">
-        <a href="/ask.html">Create a poll</a>
-    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
     <script src="/js/app.js"></script>

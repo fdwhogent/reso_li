@@ -127,7 +127,7 @@ class AdminApp {
         const container = document.getElementById('publicPollQuestions');
         container.innerHTML = '';
 
-        document.getElementById('addPublicQuestionLink').href = `/ask.html?poll=${this.publicPoll.accessCode}`;
+        document.getElementById('addPublicQuestionLink').href = `/ask?poll=${this.publicPoll.accessCode}`;
 
         if (!poll.questions || poll.questions.length === 0) {
             container.innerHTML = '<p class="text-muted">No questions yet</p>';
@@ -181,7 +181,7 @@ class AdminApp {
                 <td>${poll.availableUntil ? Utils.formatDate(poll.availableUntil) : '-'}</td>
                 <td>${poll.isPublic ? '<strong>Yes</strong>' : 'No'}</td>
                 <td>
-                    <a href="/manage.html?poll=${poll.accessCode}" class="btn btn-secondary btn-sm">Manage</a>
+                    <a href="/manage?poll=${poll.accessCode}" class="btn btn-secondary btn-sm">Manage</a>
                 </td>
             `;
             tbody.appendChild(tr);
