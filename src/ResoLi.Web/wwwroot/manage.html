@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage poll - reso_li</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header class="header">
+        <a href="/" class="logo">reso<span>_</span>li</a>
+        <div class="header-actions">
+            <a href="/ask.html" class="btn btn-secondary btn-sm">Create a poll</a>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+                <svg class="moon-icon hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Login modal -->
+    <div id="loginModal" class="modal-overlay show">
+        <div class="modal">
+            <h2 class="modal-title">Enter poll password</h2>
+            <div class="form-group">
+                <input type="password" id="loginPassword" class="form-input" placeholder="Password" autofocus>
+                <p id="loginError" class="form-error hidden"></p>
+            </div>
+            <div class="modal-actions">
+                <button id="loginBtn" class="btn btn-primary">Sign in</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation bar (when authenticated) -->
+    <nav id="navBar" class="nav-bar hidden">
+        <div class="nav-breadcrumb">
+            <span id="pollCodeDisplay"></span>
+            <span>/</span>
+            <span id="currentView">Overview</span>
+        </div>
+        <div class="flex gap-1">
+            <button id="overviewBtn" class="btn btn-secondary btn-sm">Poll overview</button>
+            <button id="nextQuestionBtn" class="btn btn-primary btn-sm hidden">Next question</button>
+        </div>
+    </nav>
+
+    <main class="container-wide">
+        <!-- Loading state -->
+        <div id="loadingState" class="loading-container hidden">
+            <div class="spinner"></div>
+            <p class="text-muted">Loading...</p>
+        </div>
+
+        <!-- Overview state -->
+        <div id="overviewState" class="hidden">
+            <div class="flex justify-between items-center mb-3">
+                <h1>Poll overview</h1>
+                <a id="addQuestionLink" href="#" class="btn btn-primary">+ Add question</a>
+            </div>
+
+            <div id="noQuestions" class="card text-center hidden">
+                <p class="text-muted mb-2">No questions yet</p>
+                <a id="addFirstQuestion" href="#" class="btn btn-primary">Add your first question</a>
+            </div>
+
+            <div id="questionsOverview" class="question-list"></div>
+        </div>
+
+        <!-- Active question state (full screen results) -->
+        <div id="activeQuestionState" class="hidden">
+            <div class="question-container" style="max-width: 100%;">
+                <div id="activeQuestionImage" class="hidden">
+                    <img src="" alt="Question image" class="question-image">
+                </div>
+                <div id="activeQuestionContent" class="question-content" style="font-size: 2rem;"></div>
+                <div id="activeQuestionResults" class="results-list results-large mt-4"></div>
+                <div class="text-center text-muted mt-3">
+                    <span id="totalVotes">0</span> total votes
+                </div>
+            </div>
+        </div>
+
+        <!-- Historical question view -->
+        <div id="historicalState" class="hidden">
+            <div class="question-container" style="max-width: 100%;">
+                <div class="flex justify-between items-center mb-3">
+                    <h2 id="historicalTitle">Question results</h2>
+                    <button id="backToOverviewBtn" class="btn btn-secondary">Back to overview</button>
+                </div>
+                <div id="historicalContent" class="question-content"></div>
+                <div id="historicalResults" class="results-list results-large mt-4"></div>
+                <div class="flex justify-between items-center mt-3">
+                    <span class="text-muted"><span id="historicalTotalVotes">0</span> total votes</span>
+                    <button id="resetVotesBtn" class="btn btn-danger btn-sm">Reset votes</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Confirm reset modal -->
+    <div id="resetModal" class="modal-overlay">
+        <div class="modal">
+            <h2 class="modal-title">Reset votes?</h2>
+            <p>This will set all vote counts to zero. This action cannot be undone.</p>
+            <div class="modal-actions">
+                <button id="cancelResetBtn" class="btn btn-secondary">Cancel</button>
+                <button id="confirmResetBtn" class="btn btn-danger">Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirm delete modal -->
+    <div id="deleteModal" class="modal-overlay">
+        <div class="modal">
+            <h2 class="modal-title">Delete question?</h2>
+            <p>This will permanently delete this question and all its votes. This action cannot be undone.</p>
+            <div class="modal-actions">
+                <button id="cancelDeleteBtn" class="btn btn-secondary">Cancel</button>
+                <button id="confirmDeleteBtn" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
+    <script src="/js/app.js"></script>
+    <script src="/js/asker.js"></script>
+</body>
+</html>

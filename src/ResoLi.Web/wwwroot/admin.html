@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - reso_li</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header class="header">
+        <a href="/" class="logo">reso<span>_</span>li</a>
+        <div class="header-actions">
+            <a href="/ask.html" class="btn btn-secondary btn-sm">Create a poll</a>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+                <svg class="moon-icon hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Login modal -->
+    <div id="loginModal" class="modal-overlay show">
+        <div class="modal">
+            <h2 class="modal-title">Admin login</h2>
+            <p class="text-muted mb-2">Enter today's password</p>
+            <div class="form-group">
+                <input type="password" id="loginPassword" class="form-input" placeholder="Password" autofocus>
+                <p id="loginError" class="form-error hidden"></p>
+            </div>
+            <div class="modal-actions">
+                <button id="loginBtn" class="btn btn-primary">Sign in</button>
+            </div>
+        </div>
+    </div>
+
+    <main class="container">
+        <!-- Loading state -->
+        <div id="loadingState" class="loading-container hidden">
+            <div class="spinner"></div>
+            <p class="text-muted">Loading...</p>
+        </div>
+
+        <!-- Admin dashboard -->
+        <div id="adminDashboard" class="hidden">
+            <h1 class="mb-4">Admin dashboard</h1>
+
+            <!-- Public poll section -->
+            <div class="card mb-3">
+                <h2 class="card-title">Public poll</h2>
+                <p class="text-muted mb-2">The public poll is shown on the homepage (/) when no access code is entered.</p>
+
+                <div id="currentPublicPoll" class="mb-3">
+                    <p>Current public poll: <strong id="publicPollCode">None</strong></p>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="selectPublicPoll">Set public poll</label>
+                    <select id="selectPublicPoll" class="form-select">
+                        <option value="">-- Select a poll --</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="timeoutMinutes">Timeout (minutes, optional)</label>
+                    <input type="number" id="timeoutMinutes" class="form-input" placeholder="Leave empty for no timeout" min="1">
+                    <p class="form-hint">The public poll will automatically become unavailable after this duration</p>
+                </div>
+
+                <div class="flex gap-1">
+                    <button id="setPublicPollBtn" class="btn btn-primary">Set as public</button>
+                    <button id="removePublicPollBtn" class="btn btn-secondary">Remove public poll</button>
+                </div>
+            </div>
+
+            <!-- Manage public poll questions -->
+            <div id="publicPollManagement" class="card mb-3 hidden">
+                <h2 class="card-title">Manage public poll questions</h2>
+                <div id="publicPollQuestions" class="question-list mb-3"></div>
+                <a id="addPublicQuestionLink" href="#" class="btn btn-primary">+ Add question</a>
+            </div>
+
+            <!-- All polls overview -->
+            <div class="card">
+                <h2 class="card-title">All polls</h2>
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Access code</th>
+                                <th>Created</th>
+                                <th>Questions</th>
+                                <th>Available from</th>
+                                <th>Available until</th>
+                                <th>Public</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pollsTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Image upload modal -->
+    <div id="imageModal" class="modal-overlay">
+        <div class="modal">
+            <h2 class="modal-title">Upload question image</h2>
+            <div class="form-group">
+                <label class="form-label" for="imageFile">Select image</label>
+                <input type="file" id="imageFile" class="form-input" accept="image/jpeg,image/png,image/gif,image/webp">
+                <p class="form-hint">JPEG, PNG, GIF, or WebP. Max 5MB.</p>
+            </div>
+            <div id="imagePreview" class="hidden mb-2">
+                <img src="" alt="Preview" style="max-width: 100%; max-height: 200px;">
+            </div>
+            <div class="modal-actions">
+                <button id="cancelImageBtn" class="btn btn-secondary">Cancel</button>
+                <button id="uploadImageBtn" class="btn btn-primary" disabled>Upload</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
+    <script src="/js/app.js"></script>
+    <script src="/js/admin.js"></script>
+</body>
+</html>
